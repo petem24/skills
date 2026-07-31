@@ -1,4 +1,4 @@
 interface:
   display_name: "Start Linked Worktree"
-  short_description: "Start and verify a linked worktree environment"
-  default_prompt: "Use $create-worktree to start the appropriate linked-worktree environment and return its verified URLs."
+  short_description: "Resolve, start, and verify a worktree mode"
+  default_prompt: "Use $create-worktree to resolve the correct worktree mode, start all of its services, and return its verified URLs."

@@ -1,7 +1,7 @@
 interface:
   display_name: "Teardown Linked Worktree"
-  short_description: "Safely stop and remove a linked worktree"
-  default_prompt: "Use $teardown-worktree to safely stop and remove the specified linked worktree while preserving its branch."
+  short_description: "Resolve mode and safely remove a worktree"
+  default_prompt: "Use $teardown-worktree to resolve the target's mode, clean up all configured services and resources, and remove the worktree while preserving its branch."
 
 policy:
   allow_implicit_invocation: false
