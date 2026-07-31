@@ -1,5 +1,5 @@
 ---
-name: workflow-teardown
+name: teardown-worktree
 description: Safely tear down and remove a linked worktree by stopping its supervised frontend or full-stack processes, deleting its temporary Cloudflare DNS and tunnel routes, and removing the Git worktree without deleting its branch. Use when the user explicitly asks to finish, clean up, remove, or tear down a worktree.
 disable-model-invocation: true
 ---
