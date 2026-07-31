@@ -1,0 +1,4 @@
+interface:
+  display_name: "Start Linked Worktree"
+  short_description: "Start and verify a linked worktree environment"
+  default_prompt: "Use $create-worktree to start the appropriate linked-worktree environment and return its verified URLs."

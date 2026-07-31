@@ -1,0 +1,7 @@
+interface:
+  display_name: "Implement from Spec"
+  short_description: "Implement scoped work from a spec or issue"
+  default_prompt: "Use $implement to implement this spec or issue, verify it, and review the completed change."
+
+policy:
+  allow_implicit_invocation: false

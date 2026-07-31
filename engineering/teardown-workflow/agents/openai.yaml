@@ -1,0 +1,7 @@
+interface:
+  display_name: "Teardown Linked Worktree"
+  short_description: "Safely stop and remove a linked worktree"
+  default_prompt: "Use $workflow-teardown to safely stop and remove the specified linked worktree while preserving its branch."
+
+policy:
+  allow_implicit_invocation: false

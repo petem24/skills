@@ -1,0 +1,7 @@
+interface:
+  display_name: "Turn Conversation into Issue"
+  short_description: "Synthesize discussion into a GitHub issue spec"
+  default_prompt: "Use $to-issue to synthesize our discussion into a complete spec and publish it as a GitHub issue."
+
+policy:
+  allow_implicit_invocation: false
