@@ -23,7 +23,7 @@ shift $((OPTIND - 1))
 [ "$#" -gt 0 ] || usage
 
 if [ -z "${IMGBB_API_KEY:-}" ]; then
-  echo "IMGBB_API_KEY is not set. Get a key at https://api.imgbb.com/ and export it in your shell profile." >&2
+  echo "IMGBB_API_KEY is not set. Run: bash <(curl -fsSL https://raw.githubusercontent.com/petem24/skills/main/setup.sh)" >&2
   exit 1
 fi
 

@@ -46,6 +46,13 @@ credentials. If in doubt, don't upload. Describe the result in text instead.
 
 ## If the upload fails
 
-If `IMGBB_API_KEY` is not set, stop and tell the user. Don't look for a key or
-substitute another image host. Report other failures with the script's error
+If `IMGBB_API_KEY` is not set, stop and tell the user to onboard the machine
+with the setup script, then open a new terminal:
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/petem24/skills/main/setup.sh)
+```
+
+Don't run the setup script yourself, look for a key, or substitute another
+image host. Report other failures with the script's error
 message.
