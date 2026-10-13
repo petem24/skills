@@ -38,12 +38,16 @@ if [ -n "$key" ]; then
 fi
 
 for profile in "$HOME/.profile" "$HOME/.bashrc" "$HOME/.zshrc"; do
-  [ "$profile" = "$HOME/.profile" ] || [ -f "$profile" ] || continue
+  # zsh (the macOS default) doesn't read ~/.profile, so create ~/.zshrc for it.
+  case "$profile" in
+    "$HOME/.profile") ;;
+    "$HOME/.zshrc") [ -f "$profile" ] || [ "$(basename "${SHELL:-}")" = zsh ] || continue ;;
+    *) [ -f "$profile" ] || continue ;;
+  esac
   if ! grep -qF "$source_line" "$profile" 2>/dev/null; then
     printf '\n%s\n' "$source_line" >> "$profile"
     echo "Added secrets loader to $profile."
   fi
 done
 
-echo "Done. Open a new terminal (or run: . $secrets) to load the keys."
-echo "Desktop-launched apps pick them up after you log out and back in."
+echo "Done. New terminals load the keys; the skills also read $secrets directly."

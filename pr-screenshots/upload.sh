@@ -4,7 +4,8 @@
 # Usage: upload.sh [-e seconds] image...
 #   -e  delete the images after this many seconds (60-15552000)
 #
-# Requires IMGBB_API_KEY in the environment. Uploaded images are public.
+# Requires IMGBB_API_KEY, from the environment or ~/.config/secrets.env.
+# Uploaded images are public.
 set -euo pipefail
 
 usage() {
@@ -22,8 +23,15 @@ done
 shift $((OPTIND - 1))
 [ "$#" -gt 0 ] || usage
 
+# Sessions started before the key was saved, or apps not launched from a
+# shell, won't have it in their environment, so read the saved file directly.
+if [ -z "${IMGBB_API_KEY:-}" ] && [ -f "$HOME/.config/secrets.env" ]; then
+  # shellcheck disable=SC1091
+  . "$HOME/.config/secrets.env"
+fi
+
 if [ -z "${IMGBB_API_KEY:-}" ]; then
-  echo "IMGBB_API_KEY is not set. Run: bash <(curl -fsSL https://raw.githubusercontent.com/petem24/skills/main/setup.sh)" >&2
+  echo "IMGBB_API_KEY is not set. Onboard this machine with setup.sh from the skills repository." >&2
   exit 1
 fi
 
