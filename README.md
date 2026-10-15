@@ -28,7 +28,7 @@ npx skills update -g
 | Skill | Purpose | Needs |
 | --- | --- | --- |
 | [pr-screenshots](pr-screenshots/SKILL.md) | Upload screenshots to ImgBB and attach them to a pull request | `IMGBB_API_KEY` from <https://api.imgbb.com/> |
-| [verify-ui](verify-ui/SKILL.md) | Check web UI changes in headless Chrome with agent-browser | The project's `pnpm browser` and sign-in helpers |
+| [verify-ui](verify-ui/SKILL.md) | Check web UI changes in headless Chrome with agent-browser | The project's `pnpm browser` and `pnpm auth` ([devkit](https://github.com/DevSports/devkit)) |
 
 Third-party skills (Convex, Angular, Matt Pocock's grilling and handoff, and
 others) aren't copied here. They're on Mission Control's **Skills to sync**

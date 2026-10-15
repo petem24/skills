@@ -1,6 +1,6 @@
 ---
 name: verify-ui
-description: Verify web UI changes in headless Chrome with agent-browser, using the project's saved test sign-in, and run the project's relevant existing tests. Use after changing anything visible, or when asked to check, inspect, screenshot or exercise a browser flow.
+description: Verify web UI changes in headless Chrome with agent-browser, signed in as the project's Clerk test users, and run the project's relevant existing tests. Use after changing anything visible, or when asked to check, inspect, screenshot or exercise a browser flow.
 ---
 
 # Verify UI
@@ -15,8 +15,7 @@ Read the project's `AGENTS.md` (or `CLAUDE.md`) and the UI verification guide
 it links to. Note:
 
 - how to start the app in this checkout, and the URL to verify against;
-- how to prepare and check the saved sign-in (usually `pnpm auth:prepare` and
-  `pnpm auth:check`), and which role or user to use;
+- which user to sign in as (`pnpm auth --list` shows them);
 - the viewport sizes the project supports;
 - the existing tests that cover the area you changed.
 
@@ -29,28 +28,35 @@ that belongs to another checkout.
 
 ## 2. Run the browser
 
-Use the project's pinned wrapper, `pnpm browser`, from the checkout you're
-verifying. Install it with `pnpm browser:install` when it's missing (on Linux,
-add `--with-deps` if Chrome's libraries are missing). Run `pnpm browser --help`
-for the commands the pinned version supports. Don't run agent-browser's own
-`upgrade` command; the project pins the version.
+Use `pnpm browser` from the checkout you're verifying. In DevSports projects it
+comes from [devkit](https://github.com/DevSports/devkit), which pins the
+version; its README covers host settings and the live dashboard. Install it
+with `pnpm browser:install` when it's missing (on Linux, add `--with-deps` if
+Chrome's libraries are missing). Run `pnpm browser --help` for the commands the
+pinned version supports. Don't run agent-browser's own `upgrade` command.
 
 - **One session per task.** Pick a unique `AGENT_BROWSER_SESSION` (for example
   `<project>-<task>-<role>`) and set it on **every** command: shell exports
   don't always carry over between tool calls. Close only your own session; never
   `close --all`.
-- **One origin.** Prepare the sign-in, browse and run tests against the same
-  URL. Sessions don't carry across origins, so don't sign in on `localhost` and
-  verify on the Tailscale URL.
-- **Signed-in state is a credential.** Load it with `--state <file>` when
-  opening a fresh session. Never print, commit or copy it, never ask for
-  passwords, codes or cookies, and never attach to a personal browser profile.
-  If the project's sign-in setup is missing a secret, report that gap instead
-  of asking for a manual sign-in.
+- **Sign in with `pnpm auth`.** Development users are Clerk test users
+  (`+clerk_test` addresses) that sign in with the code `424242`, with no email,
+  passwords or secrets. `pnpm auth [user] --url "$APP_URL"` signs your session
+  in through the app's own Clerk; run it again with another user to switch.
+  `pnpm auth --all --save` saves sessions for test suites. To sign in by hand,
+  type a test address on the sign-in page and enter `424242`. A project
+  without `pnpm auth` documents its own sign-in in `AGENTS.md`.
+- **One origin.** Sign in, browse and run tests against the same URL. Sessions
+  don't carry across origins, so don't sign in on `localhost` and verify on the
+  Tailscale URL.
+- **Saved sessions are credentials.** Never print, commit or copy them, never
+  ask for real passwords, codes or cookies, and never attach to a personal
+  browser profile.
 
 ```sh
 export AGENT_BROWSER_SESSION=<project>-<task>
-pnpm browser --state <auth-state.json> open "$APP_URL"
+pnpm auth --url "$APP_URL"
+pnpm browser open "$APP_URL"
 pnpm browser set viewport 1440 1000
 pnpm browser snapshot -i
 pnpm browser click @e3            # refs come from the latest snapshot

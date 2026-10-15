@@ -27,4 +27,5 @@ project's `AGENTS.md` and a shared skill disagree, the project wins.
 
 After changing anything visible in a web app, check it yourself in headless
 Chrome with the **verify-ui** skill before saying it's done. The project's
-`AGENTS.md` says how to start the app, which URL to use and how to sign in.
+`AGENTS.md` says how to start the app and which URL to use; sign in with
+`pnpm auth`, which uses Clerk test users and needs no secrets.
