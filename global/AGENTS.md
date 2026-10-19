@@ -29,3 +29,9 @@ After changing anything visible in a web app, check it yourself in headless
 Chrome with the **verify-ui** skill before saying it's done. The project's
 `AGENTS.md` says how to start the app and which URL to use; sign in with
 `pnpm auth`, which uses Clerk test users and needs no secrets.
+
+## Pull requests
+
+Every pull request you open starts with a **Blast radius** section: use the
+**pr-blast-radius** skill to write it before you create the PR, and update it
+when you push changes that alter it.
