@@ -10,10 +10,8 @@ On each machine, once:
 bash <(curl -fsSL https://raw.githubusercontent.com/petem24/skills/main/setup.sh)
 ```
 
-This installs every skill at user level for every supported agent, then asks
-for the keys the skills need and saves them to `~/.config/secrets.env`
-(readable only by you), loaded from your shell profiles. It's safe to rerun,
-for example to replace a key.
+This installs every skill at user level for every supported agent. It's safe
+to rerun.
 
 ## Update
 
@@ -28,7 +26,7 @@ npx skills update -g
 | Skill | Purpose | Needs |
 | --- | --- | --- |
 | [pull-requests](pull-requests/SKILL.md) | Write every PR body the same way: blast radius (UI, feature, back end, schema, migration), summary, the issues it closes on merge, and the `verify-ui` screenshots for visible changes | Nothing (screenshots use `pr-screenshots`) |
-| [pr-screenshots](pr-screenshots/SKILL.md) | Upload screenshots to ImgBB and attach them to a pull request | `IMGBB_API_KEY` from <https://api.imgbb.com/> |
+| [pr-screenshots](pr-screenshots/SKILL.md) | Store screenshots on the repo's `pr-screenshots` branch and attach them to a pull request | The GitHub CLI, logged in |
 | [verify-ui](verify-ui/SKILL.md) | Check web UI changes in headless Chrome with agent-browser | The project's `pnpm browser` and `pnpm auth` ([devkit](https://github.com/DevSports/devkit)) |
 
 Third-party skills (Convex, Angular, Matt Pocock's grilling and handoff, and
