@@ -181,9 +181,10 @@ start, say), write that in the section instead of leaving it out.
 ## 7. Upload and embed them
 
 GitHub has no API for attaching images, so upload them with the
-`pr-screenshots` skill and embed the links it prints. Read its warning first:
-the links are public, so only upload shots of seeded or test data, never real
-personal data, secrets or tokens.
+`pr-screenshots` skill, which commits them to the repository's
+`pr-screenshots` branch, and embed the links it prints. In a public
+repository anyone can see them, so there only upload shots of seeded or test
+data, never real personal data, secrets or tokens.
 
 Put the section after Issues, with a line on what each image shows:
 
@@ -191,16 +192,17 @@ Put the section after Issues, with a line on what each image shows:
 ## Screenshots
 
 Players list with the new filter bar, desktop (1440px):
-![players-filter-1440](https://i.ibb.co/...)
+![players-filter-1440](https://github.com/<owner>/<repo>/blob/pr-screenshots/<branch>/...)
 
 Same, mobile (390px):
-![players-filter-390](https://i.ibb.co/...)
+![players-filter-390](https://github.com/<owner>/<repo>/blob/pr-screenshots/<branch>/...)
 
 Empty state when no players match:
-![players-filter-empty-1440](https://i.ibb.co/...)
+![players-filter-empty-1440](https://github.com/<owner>/<repo>/blob/pr-screenshots/<branch>/...)
 ```
 
-ImgBB only takes images, so describe a recorded flow in text instead.
+GitHub only shows images inline, not videos, so record a flow as a GIF or
+describe it in text instead.
 
 # Keep it current
 
