@@ -34,5 +34,6 @@ Chrome with the **verify-ui** skill before saying it's done. The project's
 
 Write every pull request with the **pull-requests** skill, before you create
 it and again when you push changes. It starts with a **Blast radius** section,
-and any PR with a visible change includes the screenshots you took with
-**verify-ui**.
+links every related issue from the chat (with `Closes #N` for the ones it
+resolves, so they close on merge), and any PR with a visible change includes
+the screenshots you took with **verify-ui**.

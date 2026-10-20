@@ -1,6 +1,6 @@
 ---
 name: pull-requests
-description: Write every pull request body the same way - a Blast radius section at the top saying how far the change reaches (front-end UI only, front-end feature, back end, Convex schema, migration), then the summary, then the screenshots taken while verifying any visible change. Use whenever you create or update a pull request, or are asked to summarise a PR's risk, scope or blast radius, or to add screenshots to a PR.
+description: Write every pull request body the same way - a Blast radius section at the top saying how far the change reaches (front-end UI only, front-end feature, back end, Convex schema, migration), then the summary, then the issues it closes (so GitHub closes them on merge), then the screenshots taken while verifying any visible change. Use whenever you create or update a pull request, or are asked to summarise a PR's risk, scope or blast radius, link issues to a PR, or add screenshots to a PR.
 ---
 
 # Pull requests
@@ -11,10 +11,12 @@ Every pull request body has this shape:
    reviewer: how carefully does this need testing? Keep it short enough to
    read in five seconds.
 2. **Summary** of what changed and why, as usual.
-3. **Screenshots** from the `verify-ui` checks, whenever the change is visible.
+3. **Issues**: every related issue from the conversation, linked so that the
+   ones this PR resolves close when it merges.
+4. **Screenshots** from the `verify-ui` checks, whenever the change is visible.
 
 If the project's `AGENTS.md` sets a different PR template, keep Blast radius
-at the top and Screenshots in it.
+at the top and Issues and Screenshots in it.
 
 # Blast radius
 
@@ -98,6 +100,60 @@ sees every question answered.
 
 Then write the summary as usual.
 
+# Issues
+
+## 4. Collect the related issues
+
+Before you open the PR, go back through the conversation and the work and
+list every GitHub issue it relates to:
+
+- issues the user mentioned, by number (`#123`), link or title;
+- issues you created, read or commented on during the task;
+- issue numbers in the branch name, commit messages or a project tracker the
+  user pointed to.
+
+Don't guess or search for loosely related issues to pad the list. Check each
+one exists and is open with `gh issue view <number> --json number,title,state`
+(add `--repo owner/repo` for another repository). If there are none, leave the
+section out.
+
+## 5. Link them
+
+Decide for each issue whether this PR fully resolves it:
+
+- **Resolves it:** `Closes #123`. GitHub links the issue to the PR and closes
+  it when the PR is merged.
+- **Only part of it, or just related:** `Part of #123` or `Related to #123`.
+  This links without closing. Don't use a closing keyword for partial work.
+- **Not sure:** link it without closing, and tell the user so they can decide.
+
+Every closing issue needs its own keyword, on its own line; `Closes #1, #2`
+only closes #1. For an issue in another repository use
+`Closes owner/repo#123`.
+
+```markdown
+## Issues
+
+Closes #123
+Closes #130
+Part of #98 (this adds the filter; sorting is still to do)
+```
+
+The keywords only work in the PR body (not a comment), and only close issues
+when the PR merges into the repository's default branch. A PR that's closed
+without merging closes nothing. For a PR into another branch, such as a layer
+in a stack, keep the lines anyway and tell the user the issues won't close
+until the change reaches the default branch.
+
+After creating or editing the PR, check that GitHub picked them up:
+
+```bash
+gh pr view <number> --json closingIssuesReferences --jq '.closingIssuesReferences[].number'
+```
+
+Every `Closes` issue should be listed. If one is missing, fix the line in the
+body (a typo, a missing keyword, a wrong repo) and check again.
+
 # Screenshots
 
 Any PR that changes something a user can see includes the screenshots you
@@ -105,7 +161,7 @@ took with `verify-ui`. Only a PR with no visible change (back-end only,
 tooling, docs) skips this section, and says so in one line: "No visible
 change."
 
-## 4. Pick the screenshots
+## 6. Pick the screenshots
 
 Use the screenshots from this task's `verify-ui` checks, under
 `output/agent-browser/`. Include the ones that show the change:
@@ -122,14 +178,14 @@ haven't verified the change yet, run `verify-ui` first; don't open a PR with a
 visible change and no screenshots. If you couldn't take them (the app wouldn't
 start, say), write that in the section instead of leaving it out.
 
-## 5. Upload and embed them
+## 7. Upload and embed them
 
 GitHub has no API for attaching images, so upload them with the
 `pr-screenshots` skill and embed the links it prints. Read its warning first:
 the links are public, so only upload shots of seeded or test data, never real
 personal data, secrets or tokens.
 
-Put the section after the summary, with a line on what each image shows:
+Put the section after Issues, with a line on what each image shows:
 
 ```markdown
 ## Screenshots
@@ -149,6 +205,8 @@ ImgBB only takes images, so describe a recorded flow in text instead.
 # Keep it current
 
 When you push more commits to a PR you opened, rerun the scan and update the
-Blast radius section if the level or any row changed. If the new commits
+Blast radius section if the level or any row changed. If the conversation
+brings up another issue the PR resolves, add its `Closes` line and check
+again. If the new commits
 change something visible, verify it again with `verify-ui` and replace the
 screenshots that are now out of date.
