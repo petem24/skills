@@ -108,3 +108,14 @@ what you saw, test commands and their results, console and page errors,
 evidence paths, and anything you couldn't verify. Say clearly when only the
 sign-in page was covered: that doesn't verify a feature behind it. For a pull
 request with a visible change, the `pr-screenshots` skill attaches the images.
+
+**Give every screenshot and recording as a full absolute path**, one per file,
+so the reader can click it open in their chat UI. Never just name the folder
+or give a relative path like `output/agent-browser/x.png`. Show screenshots
+inline with Markdown image syntax:
+
+```md
+![Settings page at 1440px](/Users/me/repos/app/output/agent-browser/settings-1440.png)
+```
+
+Get the path with `realpath output/agent-browser/<file>` rather than typing it.
