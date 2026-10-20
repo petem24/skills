@@ -32,6 +32,8 @@ Chrome with the **verify-ui** skill before saying it's done. The project's
 
 ## Pull requests
 
-Every pull request you open starts with a **Blast radius** section: use the
-**pr-blast-radius** skill to write it before you create the PR, and update it
-when you push changes that alter it.
+Write every pull request with the **pull-requests** skill, before you create
+it and again when you push changes. It starts with a **Blast radius** section,
+links every related issue from the chat (with `Closes #N` for the ones it
+resolves, so they close on merge), and any PR with a visible change includes
+the screenshots you took with **verify-ui**.

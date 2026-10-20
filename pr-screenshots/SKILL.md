@@ -1,6 +1,6 @@
 ---
 name: pr-screenshots
-description: Upload screenshots to ImgBB and attach them to a GitHub pull request. Use after UI verification when a PR changes something visible, or when asked to add screenshots, images, or visual evidence to a PR.
+description: Upload screenshots to ImgBB and attach them to a GitHub pull request. The pull-requests skill uses it for the Screenshots section. Use after UI verification when a PR changes something visible, or when asked to add screenshots, images, or visual evidence to a PR.
 ---
 
 # PR screenshots

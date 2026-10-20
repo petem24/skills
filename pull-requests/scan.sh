@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Sort a branch's changed files into the areas a PR blast radius covers.
+# Sort a branch's changed files into the areas a PR's blast radius covers.
 #
 # Usage: scan.sh [base-ref]
 #
