@@ -1,13 +1,22 @@
 ---
-name: pr-blast-radius
-description: Open every pull request with a short blast-radius summary saying how far the change reaches (front-end UI only, front-end feature, back end, Convex schema, migration), so the reviewer can see at a glance how much testing it needs. Use whenever you create a pull request, or are asked to summarise a PR's risk, scope or blast radius.
+name: pull-requests
+description: Write every pull request body the same way - a Blast radius section at the top saying how far the change reaches (front-end UI only, front-end feature, back end, Convex schema, migration), then the summary, then the screenshots taken while verifying any visible change. Use whenever you create or update a pull request, or are asked to summarise a PR's risk, scope or blast radius, or to add screenshots to a PR.
 ---
 
-# PR blast radius
+# Pull requests
 
-Every pull request body starts with a **Blast radius** section, before
-anything else. It answers one question for the reviewer: how carefully does
-this need testing? Keep it short enough to read in five seconds.
+Every pull request body has this shape:
+
+1. **Blast radius**, before anything else. It answers one question for the
+   reviewer: how carefully does this need testing? Keep it short enough to
+   read in five seconds.
+2. **Summary** of what changed and why, as usual.
+3. **Screenshots** from the `verify-ui` checks, whenever the change is visible.
+
+If the project's `AGENTS.md` sets a different PR template, keep Blast radius
+at the top and Screenshots in it.
+
+# Blast radius
 
 ## 1. Scan the change
 
@@ -87,10 +96,59 @@ sees every question answered.
 - **Test** is one line on what to check, matching the level. Don't repeat the
   whole testing plan here; the rest of the PR body can.
 
-Then write the rest of the PR body as usual.
+Then write the summary as usual.
 
-## 4. Keep it current
+# Screenshots
+
+Any PR that changes something a user can see includes the screenshots you
+took with `verify-ui`. Only a PR with no visible change (back-end only,
+tooling, docs) skips this section, and says so in one line: "No visible
+change."
+
+## 4. Pick the screenshots
+
+Use the screenshots from this task's `verify-ui` checks, under
+`output/agent-browser/`. Include the ones that show the change:
+
+- each screen or state you changed, at every viewport you checked (usually
+  desktop and mobile);
+- the states that matter for the change, such as empty, error or validation,
+  not just the happy path;
+- a before and after pair when the change is a fix or a restyle, if you have
+  the before shot.
+
+Leave out shots of unrelated pages, sign-in screens and duplicates. If you
+haven't verified the change yet, run `verify-ui` first; don't open a PR with a
+visible change and no screenshots. If you couldn't take them (the app wouldn't
+start, say), write that in the section instead of leaving it out.
+
+## 5. Upload and embed them
+
+GitHub has no API for attaching images, so upload them with the
+`pr-screenshots` skill and embed the links it prints. Read its warning first:
+the links are public, so only upload shots of seeded or test data, never real
+personal data, secrets or tokens.
+
+Put the section after the summary, with a line on what each image shows:
+
+```markdown
+## Screenshots
+
+Players list with the new filter bar, desktop (1440px):
+![players-filter-1440](https://i.ibb.co/...)
+
+Same, mobile (390px):
+![players-filter-390](https://i.ibb.co/...)
+
+Empty state when no players match:
+![players-filter-empty-1440](https://i.ibb.co/...)
+```
+
+ImgBB only takes images, so describe a recorded flow in text instead.
+
+# Keep it current
 
 When you push more commits to a PR you opened, rerun the scan and update the
-section if the level or any row changed. If the project's `AGENTS.md` sets a
-different PR template, keep this section at the top of it.
+Blast radius section if the level or any row changed. If the new commits
+change something visible, verify it again with `verify-ui` and replace the
+screenshots that are now out of date.

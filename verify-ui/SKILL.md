@@ -106,8 +106,9 @@ host settings file (see its guide), never in committed config.
 Give the URL, who you were signed in as, the viewport sizes, what you did and
 what you saw, test commands and their results, console and page errors,
 evidence paths, and anything you couldn't verify. Say clearly when only the
-sign-in page was covered: that doesn't verify a feature behind it. For a pull
-request with a visible change, the `pr-screenshots` skill attaches the images.
+sign-in page was covered: that doesn't verify a feature behind it. When the
+work goes into a pull request, the `pull-requests` skill puts these
+screenshots in it.
 
 **Show every screenshot inline, by its full absolute path**, so the reader sees
 it in the chat and can click to expand it. One Markdown image per file:
