@@ -109,13 +109,19 @@ evidence paths, and anything you couldn't verify. Say clearly when only the
 sign-in page was covered: that doesn't verify a feature behind it. For a pull
 request with a visible change, the `pr-screenshots` skill attaches the images.
 
-**Give every screenshot and recording as a full absolute path**, one per file,
-so the reader can click it open in their chat UI. Never just name the folder
-or give a relative path like `output/agent-browser/x.png`. Show screenshots
-inline with Markdown image syntax:
+**Show every screenshot inline, by its full absolute path**, so the reader sees
+it in the chat and can click to expand it. One Markdown image per file:
 
 ```md
-![Settings page at 1440px](/Users/me/repos/app/output/agent-browser/settings-1440.png)
+![Settings page at 1440px](</Users/me/repos/my app/output/agent-browser/settings-1440.png>)
 ```
 
-Get the path with `realpath output/agent-browser/<file>` rather than typing it.
+- Get the path with `realpath output/agent-browser/<file>`; don't type it.
+- Always wrap the path in `<...>`. A space in a bare path stops the image
+  rendering at all, and the brackets are harmless when there's no space.
+- Never just name the folder, and never use a relative path
+  (`output/agent-browser/x.png`) or `~/`. Chat UIs such as T3 Code resolve
+  relative paths against the thread's checkout, which may not be where you
+  saved the file, and they refuse `~/` outright.
+- Recordings work the same way: `![Checkout flow](</abs/path/checkout.webm>)`
+  plays the video inline.
