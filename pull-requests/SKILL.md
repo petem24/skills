@@ -13,7 +13,8 @@ Every pull request body has this shape:
 2. **Summary** of what changed and why, as usual.
 3. **Issues**: every related issue from the conversation, linked so that the
    ones this PR resolves close when it merges.
-4. **Screenshots** from the `verify-ui` checks, whenever the change is visible.
+4. **Screenshots** from the `verify-ui` checks, whenever the change is visible,
+   plus a video only when `verify-ui` needed to record one.
 
 If the project's `AGENTS.md` sets a different PR template, keep Blast radius
 at the top and Issues and Screenshots in it.
@@ -201,8 +202,10 @@ Empty state when no players match:
 ![players-filter-empty-1440](https://github.com/<owner>/<repo>/blob/pr-screenshots/<branch>/...)
 ```
 
-GitHub only shows images inline, not videos, so record a flow as a GIF or
-describe it in text instead.
+If `verify-ui` recorded a video because the change is motion or a sequence
+stills can't show, add it under the screenshots with the `pr-screenshots`
+skill's Videos steps (`gh pr create|edit --attach`). Don't record one just
+for the PR; screenshots are enough for most changes.
 
 # Keep it current
 

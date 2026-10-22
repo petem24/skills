@@ -26,8 +26,8 @@ npx skills update -g
 | Skill | Purpose | Needs |
 | --- | --- | --- |
 | [pull-requests](pull-requests/SKILL.md) | Write every PR body the same way: blast radius (UI, feature, back end, schema, migration), summary, the issues it closes on merge, and the `verify-ui` screenshots for visible changes | Nothing (screenshots use `pr-screenshots`) |
-| [pr-screenshots](pr-screenshots/SKILL.md) | Store screenshots on the repo's `pr-screenshots` branch and attach them to a pull request | The GitHub CLI, logged in |
-| [verify-ui](verify-ui/SKILL.md) | Check web UI changes in headless Chrome with agent-browser | The project's `pnpm browser` and `pnpm auth` ([devkit](https://github.com/DevSports/devkit)) |
+| [pr-screenshots](pr-screenshots/SKILL.md) | Store screenshots on the repo's `pr-screenshots` branch and attach them to a pull request, plus the occasional video via `gh --attach` | The GitHub CLI, logged in (2.99+ for video) |
+| [verify-ui](verify-ui/SKILL.md) | Check web UI changes in headless Chrome with agent-browser; screenshots by default, video only for motion | The project's `pnpm browser` and `pnpm auth` ([devkit](https://github.com/DevSports/devkit)); ffmpeg for video |
 
 Third-party skills (Convex, Angular, Matt Pocock's grilling and handoff, and
 others) aren't copied here. They're on Mission Control's **Skills to sync**

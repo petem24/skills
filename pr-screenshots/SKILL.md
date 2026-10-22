@@ -1,6 +1,6 @@
 ---
 name: pr-screenshots
-description: Store screenshots on the repository's pr-screenshots branch and attach them to a GitHub pull request. The pull-requests skill uses it for the Screenshots section. Use after UI verification when a PR changes something visible, or when asked to add screenshots, images, or visual evidence to a PR.
+description: Store screenshots on the repository's pr-screenshots branch and attach them to a GitHub pull request, and attach the occasional screen recording as a video GitHub plays inline. The pull-requests skill uses it for the Screenshots section. Use after UI verification when a PR changes something visible, or when asked to add screenshots, images, videos, recordings or visual evidence to a PR.
 ---
 
 # PR screenshots
@@ -48,8 +48,43 @@ tokens or credentials.
 
    If you are creating the PR yourself, put the section in the PR body instead.
 
+## Videos
+
+Screenshots come first. Only attach a video when `verify-ui` recorded one
+because the change is motion or a sequence that stills can't show; never
+record one just for the PR. Post its key screenshots too, since they show in
+notifications and load faster.
+
+GitHub doesn't play videos linked from the `pr-screenshots` branch, so upload
+them with the GitHub CLI's `--attach` instead, which needs gh 2.99 or later
+(`gh --version`). It works like dragging a file into the PR on github.com: the
+video is stored in GitHub's attachment storage, follows the repository's
+visibility, and plays inline.
+
+- **Creating the PR:** reference the local file in the body and attach it.
+  The reference is rewritten to the uploaded video:
+
+  ```bash
+  gh pr create --title "..." --body-file body.md \
+    --attach output/agent-browser/checkout-flow.mp4
+  ```
+
+  where `body.md` has `![checkout-flow](output/agent-browser/checkout-flow.mp4)`
+  under the line describing it. The path must match the `--attach` path
+  exactly.
+- **An existing PR:** use `gh pr edit <number> --body-file body.md --attach ...`
+  the same way, or `gh pr comment <number> --body "..." --attach ...`. With no
+  body flag, `gh pr edit` appends the video to the current body.
+
+Videos have no alt text, so describe what it shows on the line above it.
+Uploading again makes a new link rather than replacing the old one, so
+remove the stale reference from the body when you replace a video. Keep it
+under 10 MB (shrink it as `verify-ui` describes), and the same rule as for
+images applies in a public repository: seeded or test data only.
+
 ## If the upload fails
 
-If `gh` isn't logged in, stop and ask the user to run `gh auth login`. Report
-other failures with the script's error message. Don't substitute another image
-host.
+If `gh` isn't logged in, stop and ask the user to run `gh auth login`. If
+`--attach` isn't recognised, ask them to upgrade the GitHub CLI
+(`brew upgrade gh`) and use the screenshots meanwhile. Report other failures
+with the error message. Don't substitute another image or video host.
