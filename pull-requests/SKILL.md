@@ -179,13 +179,13 @@ haven't verified the change yet, run `verify-ui` first; don't open a PR with a
 visible change and no screenshots. If you couldn't take them (the app wouldn't
 start, say), write that in the section instead of leaving it out.
 
-## 7. Upload and embed them
+## 7. Attach them
 
-GitHub has no API for attaching images, so upload them with the
-`pr-screenshots` skill, which commits them to the repository's
-`pr-screenshots` branch, and embed the links it prints. In a public
-repository anyone can see them, so there only upload shots of seeded or test
-data, never real personal data, secrets or tokens.
+Attach them with the `pr-screenshots` skill: reference each local file in
+the body and pass it to `gh pr create|edit --attach`, which uploads it and
+rewrites the reference. In a public repository anyone can see them, so there
+only attach shots of seeded or test data, never real personal data, secrets
+or tokens.
 
 Put the section after Issues, with a line on what each image shows:
 
@@ -193,19 +193,18 @@ Put the section after Issues, with a line on what each image shows:
 ## Screenshots
 
 Players list with the new filter bar, desktop (1440px):
-![players-filter-1440](https://github.com/<owner>/<repo>/blob/pr-screenshots/<branch>/...)
+![Players list with the filter bar at 1440px](output/agent-browser/players-filter-1440.png)
 
 Same, mobile (390px):
-![players-filter-390](https://github.com/<owner>/<repo>/blob/pr-screenshots/<branch>/...)
+![Players list with the filter bar at 390px](output/agent-browser/players-filter-390.png)
 
 Empty state when no players match:
-![players-filter-empty-1440](https://github.com/<owner>/<repo>/blob/pr-screenshots/<branch>/...)
+![Empty state when no players match](output/agent-browser/players-filter-empty-1440.png)
 ```
 
 If `verify-ui` recorded a video because the change is motion or a sequence
-stills can't show, add it under the screenshots with the `pr-screenshots`
-skill's Videos steps (`gh pr create|edit --attach`). Don't record one just
-for the PR; screenshots are enough for most changes.
+stills can't show, attach it under the screenshots the same way. Don't
+record one just for the PR; screenshots are enough for most changes.
 
 # Keep it current
 
