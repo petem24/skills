@@ -73,6 +73,15 @@ pnpm browser close
 - Take a fresh snapshot after navigation or any big change; refs go stale.
 - Wait for visible UI state (text, a selector, the URL), not network idle or a
   fixed sleep. Convex and similar backends hold connections open.
+- **Animation and playback** (Canvas, WebGL, `<video>`, a camera feed, CSS
+  animations) can play without changing the DOM, so there's no text or
+  selector to wait for. Wait on the playback state with `wait --fn` instead:
+  `document.querySelector('video').currentTime > 2` for a video,
+  `document.getAnimations().every(a => a.playState === 'finished')` for CSS
+  and Web Animations, or a frame count or flag the component already exposes.
+  Only when none of those exists, as with a Canvas drawn in a
+  `requestAnimationFrame` loop, use a fixed `wait <ms>`. Keep it short, and
+  say in your report where you used one and why.
 - Exercise the controls you changed, not just the page they're on. Check the
   states that matter: loading, empty, error, validation and keyboard use.
 - Reload to confirm anything that should persist, and check the saved content,
