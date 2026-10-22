@@ -1,6 +1,6 @@
 ---
 name: verify-ui
-description: Verify web UI changes in headless Chrome with agent-browser, signed in as the project's Clerk test users, and run the project's relevant existing tests. Use after changing anything visible, or when asked to check, inspect, screenshot or exercise a browser flow.
+description: Verify web UI changes in headless Chrome with agent-browser, signed in as the project's Clerk test users, and run the project's relevant existing tests. Takes screenshots by default and records a video only when a change is motion or a sequence that stills can't show. Use after changing anything visible, or when asked to check, inspect, screenshot, record or exercise a browser flow.
 ---
 
 # Verify UI
@@ -88,12 +88,61 @@ pnpm browser close
 - Clean up data you created for the check.
 
 Keep screenshots, recordings and other evidence under ignored
-`output/agent-browser/`, with task-specific names. Recording
-(`pnpm browser record start output/agent-browser/<task>.webm`, then
-`record stop`) needs ffmpeg and is only worth it for flows that are hard to
-show in stills.
+`output/agent-browser/`, with task-specific names.
 
-## 4. Host quirks
+## 4. Record only when stills can't show it
+
+Screenshots are the default. Most changes (layout, styling, copy, a new
+state, a form error) are fully shown by a screenshot of each state, so don't
+record those. Record a video only when the change **is** the motion or the
+sequence, and stills would leave the reviewer guessing:
+
+- an animation, transition or loading sequence;
+- drag and drop, resizing, scrolling behaviour such as sticky or infinite
+  lists;
+- a multi-step flow where what matters is how one step leads to the next,
+  such as optimistic updates followed by the saved result;
+- a bug fix for timing or flicker, where the "after" only proves anything
+  when it's moving;
+- the user asked for a video.
+
+If you're unsure, take screenshots. One short recording of the key flow is
+enough; don't record every viewport.
+
+Recording needs ffmpeg with the libx264 encoder (`brew install ffmpeg` has it;
+`pnpm browser doctor` checks). Record **mp4**, which plays in Safari, GitHub
+and chat; webm doesn't everywhere. Plan the steps with a snapshot first, then
+record only the flow:
+
+```sh
+pnpm browser snapshot -i                       # plan before recording
+pnpm browser record start output/agent-browser/<task>.mp4 --cursor --contact-sheet
+pnpm browser click @e3
+pnpm browser wait --text "Saved"
+pnpm browser screenshot output/agent-browser/<task>-saved.png
+pnpm browser record stop
+```
+
+- Keep it under about 30 seconds. Use `--fps 60` only for short,
+  motion-heavy takes and lower it (`--fps 15`) for longer ones.
+- `--cursor` shows the pointer, so clicks and drags are visible. Leave it off
+  for pure animation work.
+- **You can't watch the video, so check it another way.** `--contact-sheet`
+  saves `<task>.contact-sheet.png` next to the video, a grid of timestamped
+  frames at each visible change; open it to confirm the flow happened in the
+  right order. For scroll-heavy takes add `--contact-sheet-threshold 0.2` so
+  it isn't full of near-identical frames. The frames are small, so also take
+  screenshots at the key moments while recording and look at those for
+  detail.
+- Check the size with `ls -lh`. GitHub accepts up to 10 MB on free plans
+  (100 MB on paid). If it's bigger, shrink it:
+
+  ```sh
+  ffmpeg -i <task>.mp4 -vf "scale='min(1280,iw)':-2" -c:v libx264 -crf 28 \
+    -preset slow -pix_fmt yuv420p -movflags +faststart -an <task>-small.mp4
+  ```
+
+## 5. Host quirks
 
 Normal macOS and Linux hosts need no settings. On a host where Chrome reports
 `No usable sandbox` and it can't be fixed, or where Tailscale runs in
@@ -101,7 +150,7 @@ userspace and needs an outbound proxy, put `AGENT_BROWSER_ARGS`,
 `AGENT_BROWSER_PROXY` and the lowercase proxy variables in the project's
 host settings file (see its guide), never in committed config.
 
-## 5. Report
+## 6. Report
 
 Give the URL, who you were signed in as, the viewport sizes, what you did and
 what you saw, test commands and their results, console and page errors,
@@ -124,5 +173,6 @@ it in the chat and can click to expand it. One Markdown image per file:
   (`output/agent-browser/x.png`) or `~/`. Chat UIs such as T3 Code resolve
   relative paths against the thread's checkout, which may not be where you
   saved the file, and they refuse `~/` outright.
-- Recordings work the same way: `![Checkout flow](</abs/path/checkout.webm>)`
-  plays the video inline.
+- Recordings work the same way: `![Checkout flow](</abs/path/checkout.mp4>)`
+  plays the video inline. Show its contact sheet too, and say why the change
+  needed a video rather than screenshots.
